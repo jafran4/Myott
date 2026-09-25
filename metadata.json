@@ -1,0 +1,6 @@
+{
+  "name": "Live Streaming Platform",
+  "description": "A next-generation live streaming web portal complete with interactive channels directory, custom video-js style live player, interactive scrolling chat with simulated viewer interaction, active webcam broadcasting, and stream dashboards.",
+  "requestFramePermissions": ["camera", "microphone"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
