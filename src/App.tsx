@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { 
-  Tv, Film, ExternalLink, RefreshCw, Maximize2, 
+  Tv, Film, RefreshCw, Maximize2, 
   ArrowLeft, Play, Radio, Clapperboard, Sparkles
 } from 'lucide-react';
 
@@ -262,20 +262,8 @@ export default function App() {
               </button>
             </div>
 
-            {/* Right Tools: Open Source, Reload, Fullscreen */}
+            {/* Right Tools: Reload, Fullscreen */}
             <div className="flex items-center gap-2">
-              <a
-                id="btn-open-stream-site"
-                href={activeConfig.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hidden md:flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-neutral-900/80 hover:bg-neutral-800 text-neutral-300 text-xs border border-neutral-800 transition-colors shadow-sm"
-                title="Open site directly in new tab"
-              >
-                <span className="font-mono text-[11px]">{activeConfig.domain}</span>
-                <ExternalLink className="h-3 w-3 text-neutral-400" />
-              </a>
-
               <button
                 id="btn-reload-stream"
                 type="button"
