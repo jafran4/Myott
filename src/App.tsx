@@ -75,17 +75,17 @@ export default function App() {
       {viewMode === 'selection' && (
         <div 
           id="entry-selection-portal"
-          className="absolute inset-0 z-40 bg-neutral-950 flex flex-col items-center justify-start sm:justify-center p-4 sm:p-6 md:p-12 overflow-y-auto scrollbar-thin pt-[max(3.5rem,env(safe-area-inset-top,3.5rem))] pb-[max(2rem,env(safe-area-inset-bottom,2rem))]"
+          className="absolute inset-0 z-40 bg-neutral-950 flex flex-col items-center justify-start sm:justify-center p-4 sm:p-6 md:p-12 overflow-y-auto scrollbar-thin"
         >
           {/* Ambient background light gradients */}
           <div className="absolute top-1/4 left-1/4 w-72 sm:w-96 h-72 sm:h-96 bg-purple-600/10 rounded-full blur-3xl pointer-events-none" />
           <div className="absolute bottom-1/4 right-1/4 w-72 sm:w-96 h-72 sm:h-96 bg-red-600/10 rounded-full blur-3xl pointer-events-none" />
 
-          <div className="relative z-10 max-w-4xl w-full flex flex-col items-center text-center space-y-6 sm:space-y-10 my-auto py-2 sm:py-6">
+          <div className="relative z-10 max-w-4xl w-full flex flex-col items-center text-center space-y-6 sm:space-y-10 my-auto py-6 sm:py-8">
             
-            {/* Header intro - safely positioned down below mobile notch */}
+            {/* Header intro */}
             <div className="space-y-2 sm:space-y-3 px-2">
-              <div className="inline-flex items-center gap-1.5 sm:gap-2 px-3 py-1 rounded-full bg-neutral-900 border border-neutral-800 text-[11px] sm:text-xs font-medium text-neutral-400 shadow-md">
+              <div className="inline-flex items-center gap-1.5 sm:gap-2 px-3 py-1 rounded-full bg-neutral-900 border border-neutral-800 text-[11px] sm:text-xs font-medium text-neutral-400">
                 <Sparkles className="h-3 w-3 sm:h-3.5 sm:w-3.5 text-purple-400" />
                 <span>StreamPulse Portal</span>
               </div>
@@ -199,41 +199,23 @@ export default function App() {
         </div>
       )}
 
-      {/* 2. BODY LAYOUT (Stream Stage and Down/Bottom Responsive Toolbar) */}
+      {/* 2. BODY LAYOUT (Stream Stage and Responsive Toolbar) */}
       <div id="body-layout-container" className="w-full h-full flex-1 flex flex-col relative overflow-hidden">
         
-        {/* Main Stage hosting the stream player (takes 100% full viewport) */}
-        <main id="main-stream-stage" className="w-full h-full flex-1 flex flex-col relative overflow-hidden">
-          <div className="w-full h-full flex-1 relative">
-            <div id="video-player-root" className="w-full h-full relative bg-black">
-              <div className="w-full h-full relative">
-                <iframe
-                  key={`${activeConfig.url}-${iframeKey}`}
-                  id="website-stream-player"
-                  src={activeConfig.url}
-                  title={`${activeConfig.name} Stream`}
-                  frameBorder="0"
-                  allowFullScreen
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen"
-                  referrerPolicy="strict-origin-when-cross-origin"
-                  className="w-full h-full border-0 block bg-black"
-                />
-              </div>
-            </div>
-          </div>
-        </main>
-
-        {/* Down Header / Bottom Navigation Bar for Mobile (and top bar for desktop) */}
+        {/* Responsive Stream Header Toolbar */}
         {viewMode === 'stream' && (
           <>
+            {/* Collapsible footer menu toolbar */}
             <header 
               id="stream-header-toolbar"
-              className={`absolute sm:top-0 bottom-0 inset-x-0 z-30 min-h-[52px] sm:min-h-[56px] bg-neutral-950/95 sm:bg-gradient-to-b sm:from-neutral-950/95 sm:via-neutral-950/70 sm:to-transparent backdrop-blur-xl px-2.5 sm:px-6 py-2 sm:py-0 pb-[max(0.75rem,env(safe-area-inset-bottom,0.75rem))] sm:pb-0 flex items-center justify-between border-t sm:border-t-0 sm:border-b border-neutral-800/80 sm:border-neutral-800/40 shadow-2xl transition-transform duration-300 ${
-                isToolbarVisible ? 'translate-y-0' : 'translate-y-full sm:-translate-y-full'
+              role="toolbar"
+              aria-label="Stream Footer Navigation"
+              className={`absolute bottom-0 inset-x-0 z-30 min-h-[54px] sm:min-h-[62px] bg-neutral-950/95 sm:bg-gradient-to-t sm:from-neutral-950 sm:via-neutral-950/90 sm:to-neutral-950/70 backdrop-blur-md px-2.5 sm:px-6 pt-2 pb-[max(0.6rem,env(safe-area-inset-bottom))] flex items-center justify-between border-t border-neutral-800/80 transition-transform duration-300 shadow-2xl ${
+                isToolbarVisible ? 'translate-y-0' : 'translate-y-full pointer-events-none'
               }`}
             >
               {/* Left: Back to Options */}
-              <div className="flex items-center gap-1.5 sm:gap-2">
+              <div className="flex items-center gap-2">
                 <button
                   id="btn-back-to-options"
                   onClick={() => setViewMode('selection')}
@@ -279,7 +261,7 @@ export default function App() {
                 </button>
               </div>
 
-              {/* Right Tools: Reload, Fullscreen, Collapse */}
+              {/* Right Tools: Toggle Toolbar, Reload, Fullscreen */}
               <div className="flex items-center gap-1 sm:gap-2">
                 <button
                   id="btn-reload-stream"
@@ -301,26 +283,26 @@ export default function App() {
                   <Maximize2 className="h-3.5 w-3.5" />
                 </button>
 
-                {/* Mobile Toolbar Collapse Trigger (hides it down off-screen) */}
+                {/* Mobile Toolbar Collapse Trigger */}
                 <button
                   id="btn-hide-toolbar"
                   type="button"
                   onClick={() => setIsToolbarVisible(false)}
                   className="p-2 sm:p-2 rounded-lg bg-neutral-900/90 hover:bg-neutral-800 active:bg-neutral-750 text-neutral-400 hover:text-white border border-neutral-800 transition-colors cursor-pointer shadow-sm min-w-[38px] min-h-[38px] flex items-center justify-center touch-manipulation sm:hidden"
-                  title="Hide toolbar for full view"
+                  title="Hide menu for full view"
                 >
                   <ChevronDown className="h-4 w-4" />
                 </button>
               </div>
             </header>
 
-            {/* Mobile Bottom Restore Pill (when toolbar is hidden, easily tap to bring it back up) */}
+            {/* Mobile Restore Pill (when footer menu is hidden) */}
             {!isToolbarVisible && (
               <button
                 id="btn-show-toolbar"
                 type="button"
                 onClick={() => setIsToolbarVisible(true)}
-                className="absolute sm:top-2 bottom-3 left-1/2 -translate-x-1/2 z-30 px-3.5 py-1.5 rounded-full bg-neutral-900/90 hover:bg-neutral-850 active:bg-neutral-800 backdrop-blur-xl border border-neutral-700/60 text-neutral-300 text-xs font-semibold flex items-center gap-1.5 shadow-2xl transition-transform active:scale-95 cursor-pointer touch-manipulation"
+                className="absolute bottom-3 left-1/2 -translate-x-1/2 z-30 px-3.5 py-1.5 rounded-full bg-neutral-900/90 hover:bg-neutral-850 active:bg-neutral-800 backdrop-blur-md border border-neutral-700/60 text-neutral-300 text-xs font-medium flex items-center gap-1.5 shadow-2xl transition-transform active:scale-95 cursor-pointer touch-manipulation"
               >
                 <span className={`w-2 h-2 rounded-full ${selectedStream === 'livetv' ? 'bg-red-500 animate-pulse' : 'bg-purple-500'}`} />
                 <span>{activeConfig.name}</span>
@@ -329,6 +311,27 @@ export default function App() {
             )}
           </>
         )}
+
+        {/* Main Stage hosting the stream player */}
+        <main id="main-stream-stage" className="w-full h-full flex-1 flex flex-col relative overflow-hidden">
+          <div className="w-full h-full flex-1 relative">
+            <div id="video-player-root" className="w-full h-full relative bg-black">
+              <div className="w-full h-full relative">
+                <iframe
+                  key={`${activeConfig.url}-${iframeKey}`}
+                  id="website-stream-player"
+                  src={activeConfig.url}
+                  title={`${activeConfig.name} Stream`}
+                  frameBorder="0"
+                  allowFullScreen
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen"
+                  referrerPolicy="strict-origin-when-cross-origin"
+                  className="w-full h-full border-0 block bg-black"
+                />
+              </div>
+            </div>
+          </div>
+        </main>
       </div>
 
     </div>
